@@ -37,12 +37,12 @@ clean-targets:         # directories to be removed by `dbt clean`
 
 models:
   silverscreen:
-    staging:
-      +materialized: view
-    integration:
-      +materialized: view
-    consumer:
-      +materialized: table
+      staging:
+        +materialized: view
+      integration:
+        +materialized: view
+      consumer:
+        +materialized: table
 
 tests:
   +severity: warn
