@@ -1,0 +1,13 @@
+
+version: 2
+
+sources:
+    - name: raw
+      database: silverscreen
+      schema: raw
+      tables:
+        - name: invoices
+        - name: movies
+        - name: sales_cinema_01
+        - name: sales_cinema_02
+        - name: sales_cinema_03
