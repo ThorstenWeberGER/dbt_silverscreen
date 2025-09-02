@@ -37,4 +37,4 @@ models:
 
 # Configuring tests
 tests:
-  +severity: warn
+  +severity: warn  

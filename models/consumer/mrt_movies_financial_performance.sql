@@ -11,13 +11,13 @@ load_sales as (
 )
 
 select
-    movie_title,
-    movie_genre,
-    movie_studio,
+    coalesce(movie_title, 'unknown') as movie_title,
+    coalesce(movie_genre, 'unknown') as movie_genre,
+    coalesce(movie_studio, 'unknown') as movie_studio,
     movie_budget_category,
-    movie_director,
-    movie_pg_rating,
-    movie_length_min,
+    coalesce(movie_director, 'unknown') as movie_director,
+    coalesce(movie_pg_rating, 'unknown') as movie_pg_rating,
+    movie_length_min,           -- there are missing values because of unknown data
     movie_rental_costs,
     c.month,
     c.cinema_id,
