@@ -1,0 +1,48 @@
+version: 2
+
+models:
+# For staging models description is reduced as column names are self explanatory
+# Also testing will be a minimum as we have done initial testing for sources and no major transformations.
+
+  - name: stg_movie_catalog
+    description: Holds descriptive and qualitative movie information about directors, length, release date and more.
+  - name: stg_invoices
+    description: Holds movie rental costs in form of individual invoices for a movie for a given time for a specific movie theatre.
+  - name: stg_sales_cinema_01
+    description: Holds sales figures of movie theatre 1
+    columns:
+      - name: month
+        description: Year and month of movie tickets sold.
+      - name: movie_id
+        description: Foreign key, primary key of movie. 
+      - name: tickets_sold
+        description: Total tickets sold for this movie this month in this theatre.
+      - name: total_revenue
+        description: Total revenue in USD for tickets sold for this movie this month this theatre.
+      - name: cinema_id
+        description: ID of movie theatre of silverscreen where movie is been shown.
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [1, 2, 3]
+      - name: load_timestamp
+        description: Timestamp when data has been loaded
+  - name: stg_sales_cinema_02
+    description: Similar to stg_sales_cinema_01 but for movie theatre 2.
+    columns:
+      - name: cinema_id
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [1,2,3]
+  - name: stg_sales_cinema_03
+    description: Similar to stg_sales_cinema_01 but for movie theatre 3.
+    columns:
+      - name: cinema_id
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [1, 2, 3]
