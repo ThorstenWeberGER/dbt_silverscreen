@@ -196,7 +196,8 @@ sources:
               - not_null
               - accepted_values:
                   arguments:
-                    values: [1,2,3]
+                    values:
+                      - 3
           - name: load_timestamp
             description: Date and time when the raw data was loaded.
   

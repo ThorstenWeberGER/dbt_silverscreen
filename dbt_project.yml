@@ -23,6 +23,7 @@ clean-targets:         # directories to be removed by `dbt clean`
 # Configure threshold variables for data_tests:
 vars:
   threshold_date: '2024-01-01' # used in test: earlier_than_threshold_date   
+  rental_costs_corr_factor: 4  # factor by which rental costs get divided
 
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models

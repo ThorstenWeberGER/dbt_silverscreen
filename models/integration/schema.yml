@@ -5,11 +5,11 @@ models:
 # For intermedia models description is reduced as column names are self explanatory
 # For intermedia models testing will be a minimum as we have done full testing for sources 
 #   and we do not have very complex aggregation or calculations or joins.
-  - name: int_sales_cinema_01_aggregate_on_month
-    description: Aggregates sales figures for cinema on monthly level. Previously was daily.
-  - name: int_sales_cinema_02_aggregate_on_month
-    description: Aggregates sales figures for cinema on monthly level. Previously was daily.
+
+
   - name: int_movie_sales
     description: Movie sales figures of all movie theatres united. Figures are aggregated on monthly level.
   - name: int_movie_rental_costs
     description: Holds rental costs for specific movies in various cinemas aggregated per month. 
+
+# want to add tests here which compare the column values of sales and rental costs with the previous models
