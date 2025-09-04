@@ -74,3 +74,4 @@ load_sales as (
 
 select *
 from impute_data
+order by movie_length_min DESC

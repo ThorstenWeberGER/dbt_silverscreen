@@ -5,7 +5,9 @@ models:
 # Also testing will be reduced to minimum possible for tables where we have done initial source testing and no transformations or cleaning 
 
   - name: stg_movie_catalog
-    description: Holds descriptive and qualitative movie information about directors, length, release date and more.
+    description: > 
+      Holds descriptive and qualitative movie information about directors, length, release date and more. 
+      String columns like title or director are all trimmed, capitalized and missing values are imputed with 'unknown'.
     columns:
       - name: movie_id
         tests:
