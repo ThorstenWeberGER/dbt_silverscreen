@@ -4,7 +4,6 @@
 {{ deduplicate_by_row_number(
     schema='raw',
     table='invoices',
-    key_column=''
     partition_by_columns=['invoice_id', 'movie_id']
 ) }}
 */ 

@@ -24,6 +24,7 @@ sources:
             description: Date when invoice was been issued. One of three keys to connect with sales figures.
             tests:
               - not_null
+              - not_earlier_than_threshold_date
               # relationship will be tested later, as date format of related tables needs transformations.
           - name: cinema_id
             description: Identifies the movie theatre which rented the movie.
@@ -82,12 +83,16 @@ sources:
             description: Name of movie studio which produced that movie.
           - name: budget
             description: Budget which was spent for movie production.
+            tests:
+              - not_negative
           - name: director
             description: Director who was producing the movie.
           - name: pg_rating
             description: PG rating of the movie.
           - name: movie_length_min
             description: Lenght of movie in minues.
+            tests:
+              - not_negative
           - name: load_timestamp
             description: Date and time when data was loaded.
       - name: sales_cinema_01
