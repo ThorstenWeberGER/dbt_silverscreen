@@ -9,6 +9,7 @@ sources:
     tables:
       - name: invoices
         description: Holds invoices for renting movies from movie distributions. These invoices represent our costs for showing the movies.
+        
         columns:
           - name: movie_id
             description: Foreign key identifying the movie been rented. Primary key in movies table.
