@@ -1,8 +1,12 @@
 # ETL - Pipeline with dbt and Snowflake
 
+![silverscreen_logo](images/silverscreen_logo_medium.png)
+
 ## Project Purpose
 
-This project is part of my curriculum at Masterschool. Main goal is to utilize the data built tool (dbt) for setting up, managing, testing and orchestration a data pipeline. The data is stored in a Snowflake datawarehouse.
+This project is part of my curriculum at Masterschool. Main goal is to utilize the data built tool (dbt) for setting up, managing, testing and orchestration a data pipeline for a fictive movie theatre company. 
+
+The pipeline shall enable a dataset for assessing the performance of movies shown across all locations. The data is stored in a Snowflake datawarehouse.
 
 ## Management Summary
 
@@ -32,7 +36,14 @@ This time I decided to work cloud native instead of setting up VS Code as IDE an
 
 ### Exploring the data
 
-Note: Within the initial EDA I already identified some requirements for later transformation
+Within the initial exploratory data analysis (EDA) first anomalies showed already. Overall following anomalies exist. Many of them could be healed by different methods.
+
+* missing values in various qualitative but also in numeric fields
+* records for which no matching data can be found in others tables
+* fully and partly duplicated data
+* significantly high costs which cannot be compensated by revenue and create high losses
+
+The methods for healing nearly of all them are described later in the paragraphs regarding the models and transformation and cleaning applied. Note: high costs cannot be healed. The reason needs to be investigated further.
 
 
 ### ETL-Pipeline: Ingestion in Snowflake
@@ -45,7 +56,7 @@ Note: Within the initial EDA I already identified some requirements for later tr
 * Normalize and standardise column names and table names
 * Use COPY INTO scripts to upload selected columns into tables
 
-`LINK COMPLETE CODE`
+[code.sql](models/ingestation/load_raw_data.sql)
 
 **Tests** applied: 
 * not_null
