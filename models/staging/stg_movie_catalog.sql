@@ -1,17 +1,12 @@
-with load as (
-    select *
-    from {{source('raw', 'movies')}}
-)
+-- load relevant columns, clean, standardize format, secure data quality, fill missing values, create table stg_movie_catalog.
 
 select 
     trim(movie_id) as movie_id,
-    initcap(trim(movie_title)) as movie_title,
-    movie_release_date,
-    initcap(trim(genre)) as movie_genre,
-    upper(trim(country)) as movie_studio_country,
-    initcap(trim(studio)) as movie_studio,
-    pg_rating as movie_pg_rating,
+    coalesce(initcap(trim(movie_title)), 'unknown') as movie_title,
+    coalesce(initcap(trim(genre)), 'unknown') as movie_genre,
+    coalesce(initcap(trim(director)), 'unknown') as movie_director,
+    coalesce(initcap(trim(studio)), 'unknown') as movie_studio,
+    coalesce(trim(pg_rating), 'unknown') as movie_pg_rating,
     movie_length_min,
     budget as movie_budget,
-    initcap(trim(director)) as movie_director
-from load
+from {{source('raw', 'movies')}}

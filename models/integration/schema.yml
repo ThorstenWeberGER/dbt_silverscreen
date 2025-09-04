@@ -1,0 +1,51 @@
+version: 2
+
+
+models:
+# For intermedia models description is reduced as column names are self explanatory
+# For intermedia models testing will be a minimum as we have done full testing for sources 
+#   and we do not have very complex aggregation or calculations or joins.
+
+
+  - name: int_movie_sales
+    description: Unites sales figures from all our cinemas into one view. No testing as no calculations or transformations were done.
+    columns:
+      - name: sales_month
+        description: Year and month of movie tickets sold. Value from source gets truncated on monthly level.
+      - name: movie_id
+        description: Identifies movie for which the sales figures are listed. Foreign key with relationship to movies source. 
+      - name: tickets_sold
+        description: Total tickets sold for this movie this month in this theatre.
+      - name: total_revenue
+        description: Total revenue in USD for tickets sold for this movie this month this theatre.
+      - name: cinema_id
+        description: ID of movie theatre of silverscreen where movie is been shown.
+
+
+  - name: int_movie_rental_costs
+    description: > 
+      Joins models with movie rental costs per month per cinema with qualitative and descriptive 
+      motive information like title, genre and more. Adds feature movie_budget_category.
+    columns:
+      - name: movie_id
+        description: Primary Key. Identifies the movie. Needs to be unique. Used as foreign key in all other tables.
+      - name: movie_title
+        description: Title of the movie.
+      - name: movie_genre
+        description: Genre of the movie.
+      - name: movie_director
+        description: Director of the movie.
+      - name: movie_studio
+        description: Name of the movie studio which produced the movie.
+      - name: movie_pg_rating
+        description: Parental Guidance (PG) rating of movie.
+      - name: movie_length_min
+        description: Length of movie in minutes.
+      - name: movie_budget
+        description: Budget which was spend on movie production in USD.
+      - name: cinema_id
+        description: Identifies the movie theatre which rented the movie.
+      - name: movie_rental_costs
+        description: Rental costs in USD for a specific movie for a specific cienma per given month.
+      - name: movie_budget_category
+        description: Categories based on budget. Has null if budget unknown. <100 Mio than small, <200 Mio then medium else large.

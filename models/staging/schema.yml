@@ -1,0 +1,127 @@
+version: 2
+
+models:
+# For staging models description is reduced as column names are self explanatory
+# Also testing will be reduced to minimum possible for tables where we have done initial source testing and no transformations or cleaning 
+
+  - name: stg_movie_catalog
+    description: > 
+      Holds descriptive and qualitative movie information about directors, length, release date and more. 
+      String columns like title or director are all trimmed, capitalized and missing values are imputed with 'unknown'.
+    columns:
+      - name: movie_id
+        tests:
+          - not_null
+          - unique
+      - name: movie_title
+        tests:
+          - not_null
+      - name: movie_genre
+        tests:
+          - not_null
+      - name: movie_director
+        tests:
+          - not_null
+      - name: movie_studio
+        tests:
+          - not_null
+      - name: movie_pg_rating
+        tests:
+          - not_null
+      
+  - name: stg_invoices
+    description: Holds movie rental costs in form of individual invoices for a movie for a given time for a specific movie theatre. No testing here as all tests haven been previously done in sources.
+    columns:
+      - name: movie_id
+        description: Foreign key, primary key of movie.
+      - name: cinema_id
+        description: Identifier for different movies theares where movies are shown. Key connects to sales tables.
+      - name: rental_month
+        description: Indicates year and month when movie was rented and invoice was issued.
+      - name: sum_rental_costs
+        description: Sum of monhthly rental cost for cinema for a specific movie in USD.
+  - name: stg_sales_cinema_01
+    description: Holds sales figures of movie theatre 1. Daily sales figures get aggregated on monthly granularity as required for final report. Also transform cinema_id from string into numeric format. Test only for columns which have been changed to previous model.
+    columns:
+      - name: sales_month
+        description: Year and month of movie tickets sold. Value from source gets truncated on monthly level.
+        tests:
+          - not_null
+          - not_earlier_than_threshold_date
+      - name: movie_id
+        description: Identifies movie for which the sales figures are listed. Foreign key with relationship to movies source. 
+      - name: tickets_sold
+        description: Number of tickets sold in given period in that cinema for that movie.
+        tests:
+          - not_null
+          - not_negative
+      - name: total_revenue
+        description: Total revenue in USD for tickets sold for this movie this month this theatre.
+        tests:
+          - not_null
+          - not_negative
+      - name: cinema_id
+        description: ID of movie theatre of silverscreen where movie is been shown.
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: '=1'
+  - name: stg_sales_cinema_02
+    description: Similar to stg_sales_cinema_01 but for movie theatre 2.
+    columns:
+      - name: sales_month
+        description: Year and month of movie tickets sold. Value from source gets truncated on monthly level.
+        tests:
+          - not_null
+      - name: movie_id
+        description: Identifies movie for which the sales figures are listed. Foreign key with relationship to movies source. 
+      - name: tickets_sold
+        tests:
+          - not_null
+          - not_negative
+        description: Total tickets sold for this movie this month in this theatre.
+      - name: total_revenue
+        description: Total revenue in USD for tickets sold for this movie this month this theatre.
+        tests:
+          - not_null
+          - not_negative
+      - name: cinema_id
+        description: ID of movie theatre of silverscreen where movie is been shown.
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: '=2'
+  - name: stg_sales_cinema_03
+    description: Similar to stg_sales_cinema_01 but for movie theatre 3. Aggregation and grouping on monthly level not required as of today (2025-09-04), but the implementation will prevent future error in case cinema 3 will deliver data on daily granularity as cinemas 1 and 2 are doing.
+    columns:
+      - name: sales_month
+        description: Year and month of movie tickets sold.
+        tests:
+          - not_null
+      - name: movie_id
+        description: Foreign key, primary key of movie. 
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                field: 'movie_id'
+                to: ref('stg_movie_catalog')
+      - name: tickets_sold
+        tests:
+          - not_null
+          - not_negative
+        description: Total tickets sold for this movie this month in this theatre.
+      - name: total_revenue
+        description: Total revenue in USD for tickets sold for this movie this month this theatre.
+        tests:
+          - not_null
+          - not_negative
+      - name: cinema_id
+        description: ID of movie theatre of silverscreen where movie is been shown.
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: '=3'

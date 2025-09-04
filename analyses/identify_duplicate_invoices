@@ -1,0 +1,40 @@
+select *
+from silverscreen.raw.invoices
+order by invoice_id, invoice_date
+limit 10;
+
+select 
+    count(*) as row_count,
+    count(invoice_id) as invoice_count,
+    count(distinct invoice_id) as invoice_distinct_count
+from silverscreen.raw.invoices;
+
+
+with spot_duplicates as (
+    select 
+        *,
+        row_number() over(partition by invoice_id order by invoice_id) as invoice_count
+    from silverscreen.raw.invoices
+    qualify invoice_count >1
+)
+select 
+    *
+from silverscreen.raw.invoices
+where invoice_id in (select invoice_id from spot_duplicates)
+;
+-- insight: there are three duplicated invoice_ids. but only one is truly showing the exact same movie, date, cinema, movie_studio and invoice_sum
+-- consequence: only eliminate this one duplicate
+
+with return_deduplicated_invoice_ids as (
+    select 
+        *,
+        row_number() over(partition by invoice_id, movie_id order by invoice_id, movie_id) as invoice_count
+    from silverscreen.raw.invoices
+    qualify invoice_count <2
+)
+select 
+    *
+from invoice_deduplicated;
+
+
+

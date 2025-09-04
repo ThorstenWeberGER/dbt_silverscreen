@@ -1,0 +1,179 @@
+version: 2
+
+models:
+# Consumer / marts models
+  - name: mrt_movies_performance
+    description: > 
+      Holds final reporting facts and dimensions about movies shown in one of our movies. 
+      Data is aggregated on monthly level. Holds information about movie, cinema, month, 
+      rental costs, revenue and number of sold tickets. As well many qualitative information 
+      about the movie itself which can be used for analytical purposes.
+
+      This model joins two intermediate movels int_movie_rental_costs and int_movie_sales.
+      A full outer join has been implemented. This is because we have sales data in int_movie_sales
+      for which we do not have any rental cost information given in int_movie_rental_costs - and
+      vice versa. In order to use all given data a full outer join is implemented.
+
+      As a result we have missing values especially on movie_rental_costs side which we can impute
+      by using the information of previous months shows of same movie in same cinema. By doing so
+      we also impute the missing rental cost information. Of course if valid information is there
+      no imputation is happening.  
+
+# NOTE: Documentation of dbt does not state clearly that this needs to be a models test instead of columns
+    
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - movie_id
+              - cinema_id
+              - sales_month
+
+    columns:
+      - name: movie_id
+        description: Unique identifier for the movie. With cinema_id together primary key.
+        tests:
+          - unique
+          - not_null
+      - name: movie_title
+        description: Title of shown movie.
+        tests:
+          - not_null
+      - name: movie_genre
+        description: Genre of shown movie.
+        tests:
+          - not_null
+      - name: movie_director
+        description: Director of the movie.
+        tests:
+          - not_null
+      - name: movie_studio
+        description: Name of studio which has produced the movie.
+        tests:
+          - not_null
+      - name: movie_pg_rating
+        description: Parental guidance (PG) rating of that movie.
+        tests:
+          - not_null
+      - name: movie_length_min
+        description: Length of that movie in minutes.
+        tests:
+          - not_negative
+      - name: movie_budget_category
+        description: Budget spend for production of movie. Three categories. Small (<100 Mio USD), Medium (100-200 Mio USD), Large (>200 Mio USD).
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:  
+                values: ['small','medium','large']
+      - name: cinema_id
+        description: Unique identifier for the movie theatre where the movie was shown.
+        tests:
+          - not_null
+          - accepted_values:
+              values: [1,2,3]
+      - name: sales_month
+        description: Year-month when movie was shown.
+        tests:
+          - not_null
+          - not_earlier_than_threshold_date
+      - name: screening_cnt_in_months
+        description: Number shows number of months the movie was shown up to that month.
+        tests:
+          - not_null
+          - not_negative
+      - name: screening_duration_in_months
+        description: Total number of months the movie was shown.
+        tests:
+          - not_null
+          - not_negative
+      - name: tickets_sold
+        description: Amount of tickets sold for that movie in that cinema in that month.
+        tests:
+          - not_null
+          - not_negative
+      - name: total_revenue
+        description: Total revenue in USD earned for showing the movie in that cinema in that month.
+        tests:
+          - not_null
+          - not_negative
+      - name: movie_rental_costs
+        description: Total rental costs in USD for showing the movie that month in that cinema.
+
+
+
+
+  - name: mrt_movies_performance_incl_kpis
+    description: >
+      Holds performance of shown movies by movie and cinema for the total time shown and on monthly average. 
+      Additional KPIs are calculated like profit, profit-margin, screening duration in months which help 
+      to assess and compare movies performance. As well many qualitative information about the movie itself 
+      which can be used for analytical purposes.
+
+      Tests will only be performaed on new KPI measures. 
+    
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - movie_id
+              - cinema_id
+
+    columns:
+      - name: movie_id
+        description: Unique identifier for the movie. With cinema_id together primary key.
+      - name: movie_title
+        description: Title of shown movie.
+      - name: movie_genre
+        description: Genre of shown movie.
+      - name: movie_director
+        description: Director of the movie.
+      - name: movie_studio
+        description: Name of studio which has produced the movie.
+      - name: movie_pg_rating
+        description: Parental guidance (PG) rating of that movie.
+      - name: movie_length_min
+        description: Length of that movie in minutes.
+      - name: movie_budget_category
+        description: Budget spend for production of movie. Three categories. Small (<100 Mio USD), Medium (100-200 Mio USD), Large (>200 Mio USD).
+      - name: cinema_id
+        description: Unique identifier for the movie theatre where the movie was shown.
+      - name: screening_duration_in_months
+        description: Total number of months the movie was shown.
+      - name: tickets_sold
+        description: Total amount of tickets sold for a movie in a specific cinema.
+      - name: tickets_sold_per_month
+        description: Average amount of tickets sold for every month the movie was shown in that cinema.  
+        tests:
+          - not_null
+          - not_negative
+      - name: revenue
+        description: Revenue generated by ticket sales for this movie for that cinema for all consecutive month the movie was shown.
+      - name: revenue_per_month
+        description: Average monthly revenue generated by ticket sales for this movie for that cinema for all consecutive month the movie was shown.
+        tests:
+          - not_null
+          - not_negative
+      - name: movie_rental_costs
+        description: Total rental costs in USD for showing the movie in that cinema.
+      - name: movie_rental_costs_per_month
+        description: Average monthly rental costs in USD for showing the movie in that cinema.
+        tests:
+          - not_null
+          - not_negative
+      - name: total_brutto_profit
+        description: The total gross profit for a movie in a specific cinema, calculated as total revenue minus total rental costs.
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: "= revenue - movie_rental_costs"
+      - name: avg_brutto_profit
+        description: Average monthly gross profit for a movie in a specific cinema, calculated as total revenue minus total rental costs.
+        tests:
+          - not_null
+      - name: brutto_profit_percent
+        description: Brutto profit margin in percent. Also called brutto Return-On-Investment. Brutto margin divided by rental_costs.
+        tests:
+          - not_null
+      

@@ -1,14 +1,11 @@
--- read source data, minor cleaning and create table stg_sales_cinema_02
+-- read source data, minor cleaning and aggregate on monthly level and create table stg_sales_cinema_02
 
-with load as (
-    select *
-    from {{source('raw', 'sales_cinema_02')}}
-)
 select 
-    date_trunc(MONTH, day) as month,
+    date_trunc(MONTH, day) as sales_month, 
     trim(movie_id) as movie_id,
-    tickets_sold,
-    total_revenue,
-    cinema_id,
-    load_timestamp
-from load
+    sum(tickets_sold) as tickets_sold,
+    sum(total_revenue) as total_revenue,
+    cinema_id
+from {{source('raw', 'sales_cinema_02')}}
+group by sales_month, movie_id, cinema_id
+order by sales_month, movie_id, cinema_id
