@@ -45,7 +45,7 @@ Note: Within the initial EDA I already identified some requirements for later tr
 * Normalize and standardise column names and table names
 * Use COPY INTO scripts to upload selected columns into tables
 
-`LINK COMPLETE CODE`
+[CODE](intestion/xxxxx.sql)
 
 **Tests** applied: 
 * not_null
@@ -69,7 +69,7 @@ Applied **transformations and cleaning**:
     * imputation of missing values with 'unknown' for string columns
     * identified missing values in movies_lenght not imputed, remains NULL in that case
 * `stg_invoices`:
-    * eliminated redundant invoice information
+    * **eliminated duplicated** invoice information (*macro*: deduplicated_invoices)
     * also applied trim and initcap for string columns
     * applied date_trunc(MONTH, ..) for invoice_date columns to prepare for monthly aggregation
     * extracted numeric values out of string columns (i.e. movie_budget and cinema_id)
@@ -89,17 +89,26 @@ Two models exist for the reason that both differ in granularity. One model has t
 
 * `mrt_movies_performance`: time-series data on monthly level
     * used full outer join for models int_movie_rental_costs with int_movie_sales
+    * **rental_costs very high**, as they exceed revenue by sold tickets in all cases. divided by a constant which can be defined in dbt_project.yml
     * imputed missing values in int_movie_rental_costs with information from previous month information
     * added features screening_months_count and screening_duration_in_months required in later models
 * `mrt_movies_performance_incl_kpis`: aggregated on movie and cinema
     * added features *first_month_on_screen*, calculated *total_brutto_profit* (i.e. revenue - rental_costs before infrastructure and personal)
-    * added additional kpis for better movie performance comparison:
+    * **added kpis** for better movie performance comparison:
         * tickets_sold_per_month
         * movie_rental_costs_per_month
         * avg_brutto_profit
         * brutto_profit_percent (which is kind or a ROI)
 
 **Tests** applied: Mainly not_null, not_negative or accepted_values on all fields to safeguard data quality at mart level.
+
+## Comprehensive data quality check
+
+In order to safeguard data quality of the three major KPIs *tickets sold*, *revenue* and *rental costs* a singular test compares these values across selected models. This happens across all Medaillon layers, from raw (source) through stage, integration to marts. 
+
+This ensures that the finally presented figures in marts match the data given as input.
+
+Test name: `not_necompare_kpi_raw_mrt.sql`
 
 ## Insights
 

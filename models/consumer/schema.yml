@@ -22,6 +22,7 @@ models:
 # NOTE: Documentation of dbt does not state clearly that this needs to be a models test instead of columns
     
     tests:
+      - compare_kpi_raw_mrt
       - dbt_utils.unique_combination_of_columns:
           arguments:
             combination_of_columns:
@@ -33,7 +34,6 @@ models:
       - name: movie_id
         description: Unique identifier for the movie. With cinema_id together primary key.
         tests:
-          - unique
           - not_null
       - name: movie_title
         description: Title of shown movie.
@@ -138,12 +138,14 @@ models:
         description: Budget spend for production of movie. Three categories. Small (<100 Mio USD), Medium (100-200 Mio USD), Large (>200 Mio USD).
       - name: cinema_id
         description: Unique identifier for the movie theatre where the movie was shown.
+      - name: first_month_on_screen
+        description: Year-Month when movie was first shown in that cinema.
       - name: screening_duration_in_months
         description: Total number of months the movie was shown.
       - name: tickets_sold
         description: Total amount of tickets sold for a movie in a specific cinema.
       - name: tickets_sold_per_month
-        description: Average amount of tickets sold for every month the movie was shown in that cinema.  
+        description: Average amount of tickets sold for every month the movie was shown in that cinema.
         tests:
           - not_null
           - not_negative

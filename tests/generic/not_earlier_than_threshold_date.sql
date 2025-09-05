@@ -1,5 +1,4 @@
--- This generic test checks if a date column has values earlier than threshold
--- set threshold in dbt_project.yml
+-- tests/generic/not_earlier_than_threshold_date.sql
 
 {% test not_earlier_than_threshold_date(model, column_name) %}
 

@@ -1,5 +1,4 @@
--- This generic test checks if a column contains any negative values.
--- It is designed to be reusable across multiple models and columns.
+-- tests / generic / not_negative.sql
 
 {% test not_negative(model, column_name) %}
 

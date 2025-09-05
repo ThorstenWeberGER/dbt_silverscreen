@@ -1,7 +1,8 @@
--- this script compares the KPIs 'sold_tickets', 'revenue', 'rental_costs' 
--- between the raw_data and final_mrt. it helps to spot differences ensuring data
--- quality
+-- tests / compare_kpi_raw_mrt.sql
+
 {{ config(store_failures=true) }}
+
+{% test compare_kpi_raw_mrt(model, column_name) %}
 
 with
     -- prepare individual raw data sources, read out relevant kpis for comparison
@@ -25,16 +26,16 @@ with
         where product_type = 'ticket'
     ),
     raw_rental_costs as (
-        select sum(invoice_sum) as raw_sum_rental_costs
+        select div0null(sum(invoice_sum), {{ var('rental_costs_corr_factor') }}) as raw_sum_rental_costs
         from {{ source("raw", "invoices") }}
     ),
     -- read out kpis from mart layer, which are all based on kpis from raw data sources
     mrt_sales_costs_all_cinemas as (
         select
             sum(movie_rental_costs) as mrt_sum_rental_costs,
-            sum(sum_tickets_sold) as mrt_sum_tickets_sold,
-            sum(sum_total_revenue) as mrt_sum_total_rewvenue
-        from {{ ref("mrt_movies_financial_performance") }}
+            sum(tickets_sold) as mrt_sum_tickets_sold,
+            sum(total_revenue) as mrt_sum_total_rewvenue
+        from {{ ref("mrt_movies_performance") }}
     ),
     -- bring sales from different movies in one result table
     raw_sales_all_cinemas as (
@@ -91,3 +92,5 @@ with
 select *
 from compare_kpis
 where is_ok = false
+
+{% endtest %}
