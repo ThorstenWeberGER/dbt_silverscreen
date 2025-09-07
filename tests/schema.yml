@@ -1,0 +1,8 @@
+data_tests:
+  - name: compare_kpi_raw_mrt
+    description: Singular test compares critical KPIs across layers and models to make sure that mart KPIs match raw data.
+macros:
+  - name: test_not_earlier_than_threshold_date
+    description: Generic test runs on a date type column and checks if values are older than specified threshold. Thresholds is a variable which gets set in dbt_profiles.          model, column_name
+  - name: test_not_negative
+    description: Generic test runs on a numeric column and checks if values are zero or positive.   
