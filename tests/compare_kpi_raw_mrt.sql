@@ -32,9 +32,9 @@ with
     mrt_sales_costs_all_cinemas as (
         select
             sum(movie_rental_costs) as mrt_sum_rental_costs,
-            sum(sum_tickets_sold) as mrt_sum_tickets_sold,
-            sum(sum_total_revenue) as mrt_sum_total_rewvenue
-        from {{ ref("mrt_movies_financial_performance") }}
+            sum(tickets_sold) as mrt_sum_tickets_sold,
+            sum(total_revenue) as mrt_sum_total_rewvenue
+        from {{ ref("mrt_movies_performance") }}
     ),
     -- bring sales from different movies in one result table
     raw_sales_all_cinemas as (

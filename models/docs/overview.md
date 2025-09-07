@@ -6,8 +6,8 @@ This documentation provides a comprehensive guide to our data models, sources, a
 
 ## Business objective
 
-`Silverscreen wants to have a comprehensive accessment of three movie theatres performance.`
-<br>
+**Providing a comprehensive accessment of three movie theatres performance.**
+
 * financial performance accessment of individual movies 
 * kpis mainly tickets sold, revenue generated, costs for referential
 * aggregation on level of movies, cinemas and months
@@ -25,7 +25,7 @@ Our data is structured in a logical flow:
 
 *Note* that raw data is handed over in CSV files from different departments or movie locations. These files as well as the produced views and tables are all in our Snoflake company datawarehouse.
 
-##Anomalies and cleaning approach##
+## Anomalies and cleaning approach
 
 The initial EDA and tests later showed following anomalies:
 * **missing values** mostly in movies_database 
