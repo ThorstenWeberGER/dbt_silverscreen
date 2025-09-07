@@ -1,0 +1,6 @@
+version: 2
+
+models:
+  - name: snowflake_setup_ingestion
+    config:
+      enabled: false

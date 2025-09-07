@@ -76,7 +76,9 @@ models:
         description: Year-month when movie was shown.
         tests:
           - not_null
-          - not_earlier_than_threshold_date
+          - not_earlier_than_threshold_date:
+              config:
+                description: Tests for date earlier than threshold set in dbt_project.
       - name: screening_cnt_in_months
         description: Number shows number of months the movie was shown up to that month.
         tests:

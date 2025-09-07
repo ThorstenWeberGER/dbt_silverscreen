@@ -1,0 +1,16 @@
+# macros / schema.yml
+# contains documentation of macros
+
+macros:
+  - name: deduplicate_rows
+    description: Macro identifies duplicates and returns a deduplicated list by keeping the first row of the duplicated rows. 
+    arguments:
+      - name: schema
+        type: string
+        description: The database schema in which the table is housed.
+      - name: table
+        type: string
+        description: Names the table which needs to be checked for duplicates.
+      - name: partition_by_columns
+        type: list
+        description: List of columns which are used as keys to identify duplicate rows.
