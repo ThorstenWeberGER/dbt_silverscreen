@@ -9,7 +9,8 @@ sources:
     tables:
       - name: invoices
         description: Holds invoices for renting movies from movie distributions. These invoices represent our costs for showing the movies.
-        
+        time_spine:
+          standard_granularity_column: invoice_date
         columns:
           - name: movie_id
             description: Foreign key identifying the movie been rented. Primary key in movies table.
@@ -27,6 +28,7 @@ sources:
               - not_null
               - not_earlier_than_threshold_date
               # relationship will be tested later, as date format of related tables needs transformations.
+            granularity: day
           - name: cinema_id
             description: Identifies the movie theatre which rented the movie.
             tests:
@@ -97,13 +99,14 @@ sources:
           - name: load_timestamp
             description: Date and time when data was loaded.
       - name: sales_cinema_01
-        description: Shows movie ticket sales figures from a specific movie theatre over time. 
+        description: Shows movie ticket sales figures from a specific movie theatre per month. 
         columns:
           - name: day
-            description: Date which corresponds to the recorded tickets sales. 
+            description: Year-Month which corresponds to the recorded tickets sales. 
             tests:
               - not_null
               - not_earlier_than_threshold_date
+            granularity: month
           - name: movie_id
             description: Foreign key. Identifies the shown movie. Related to primary key in table movies.
             tests:

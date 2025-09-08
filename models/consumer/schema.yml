@@ -1,6 +1,16 @@
 version: 2
 
 models:
+# model for semantic layer
+  - name: dim_date
+    description: The project's master calendar table, used as the time spine for the semantic layer.
+    time_spine:
+      standard_granularity_column: date_day
+    columns :
+      - name: date_day
+        description: The base date column with daily granularity.
+        granularity: day
+
 # Consumer / marts models
   - name: mrt_movies_performance
     description: > 
@@ -189,10 +199,8 @@ exposures:
     url: https://public.tableau.com/app/profile/thorsten.weber/viz/movie_performance_FY24-25/Overall
     description: >
       A Tableau dashboard show our CxO level the movies KPIs and allows drill down by movies, genre, cinema and much more. The data is updated every monday night 11pm.
-
     depends_on:
       - ref('mrt_movies_performance')
-
     owner:
       name: Thorsten Weber
 
@@ -203,9 +211,7 @@ exposures:
     maturity: medium
     description: >
       A list of movies shown with KPIs by movie and cinema. Data is from last 12 months. E-Mail is send every tuesday morning 4am.
-
     depends_on:
       - ref('mrt_movies_performance_incl_kpis')
-
     owner:
       name: Thorsten Weber
