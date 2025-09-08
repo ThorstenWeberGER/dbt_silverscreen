@@ -179,3 +179,33 @@ models:
         tests:
           - not_null
       
+
+exposures:
+
+  - name: Weekly movie performance
+    label: Movies by the week
+    type: dashboard
+    maturity: high
+    url: https://public.tableau.com/app/profile/thorsten.weber/viz/movie_performance_FY24-25/Overall
+    description: >
+      A Tableau dashboard show our CxO level the movies KPIs and allows drill down by movies, genre, cinema and much more. The data is updated every monday night 11pm.
+
+    depends_on:
+      - ref('mrt_movies_performance')
+
+    owner:
+      name: Thorsten Weber
+
+
+  - name: CxO Info /w weekly movie performance
+    label: Movies by the week
+    type: analysis
+    maturity: medium
+    description: >
+      A list of movies shown with KPIs by movie and cinema. Data is from last 12 months. E-Mail is send every tuesday morning 4am.
+
+    depends_on:
+      - ref('mrt_movies_performance_incl_kpis')
+
+    owner:
+      name: Thorsten Weber
