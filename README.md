@@ -1,75 +1,65 @@
-# ETL - Pipeline with dbt and Snowflake
+# Analytics Engineering: ETL - Pipeline with dbt, GitHub and Snowflake
 
 ![silverscreen_logo](images/silverscreen_logo_medium.png)
 
 ## Project Purpose
 
-This project is part of my curriculum at Masterschool. Main goal is to utilize the data built tool (dbt) for setting up, managing, testing and orchestration a data pipeline for a fictive movie theatre company. 
+This curriculum project was a deep dive into building a robust, **production-ready Analytics Engineering pipeline**. It wasn't just about moving data-it was about transforming a complex, messy dataset into a single source of truth to answer a critical business question: Why is our movie theatre company losing money?
 
-The pipeline producdes a dataset for assessing the performance of movies shown across all locations. The data is stored in a Snowflake datawarehouse.
+Using **data built tool (dbt) and Snowflake**, I designed, built, and tested a full ETL pipeline, delivering critical KPIs to assess the financial performance of movies across all locations. The key insights were finally visualized in **Tableau dashboard**.
 
-> **For Masterschool auditors**: Access all required files on GitHub in respective folders. The lineage you will find down below as screenshot. The recording of my presentation was done via the last session, starting with min 16:40. [link](https://masterschool.zoom.us/rec/play/kNrXRGgVKZhn0br-BVpDS-hPzJMBY6by0hn1iKfbn6_5P8OUo5gftY0-FymXQ9ViHcWhrdl_fJEwDel-.RlhQQieAnFPLGYX-)
+## 🛠️ Core Technologies & Stack
 
-## Lessons Learned and Skills Built
+This project demonstrates expertise across the full modern data stack, emphasizing scalability and code quality:
 
-**This project was - so far - one of the coolest ones!** 
+* **Data Warehouse**: Snowflake ❄️ (Cloud-native environment, enhanced SQL/Python features, schema management, COPY INTO ingestion).
 
-`Snowflake` has enhanced SQL, ability to use SQL and Python, includes features which make initial EDA fast and easy, supports dashboards and comes with a buitiful UI. And dbt itself blew my mind. 
+* **Transformation & Orchestration**: dbt (data built tool), a cloud-native development environment for model definition, testing, documentation, and orchestration.
 
-`dbt and Git` gave me the ability think and act like a Software developer. Having a version control, ability to break down 4 pages of SQL spaghetti into smaller pieces of code, visually seeing the lineage, creating and using macros, tests, unit-tests. And there is so much more to discover.
+* **Version Control**: Git/GitHub.
 
-`Highlights`
+* **Visualization**: Tableau (Used for final business performance dashboards).
 
-* **designed a Medaillon data model** including multiple data models for transformation, cleaning and aggregation of data
-* **writing macros** if as simple as functions in Python
-* **implemented various data tests** as early as possible in the pipeline to safe guard data quality (from built-in tests, self-made custom tests, test packages like dbt_utils or dbt_expectations)
-* **YAML and Jinja** make life so easy and your code DRY
-* **documentation done while coding** but then magically extracted and put together by dbt in a structured and readable format
+* **Code Languages**: SQL, Jinja, and YAML.
 
-## Management Summary
+## ⚙️ Key Analytics Engineering Accomplishments
 
-### Insights for further discussion
+This project highlights my ability to move beyond simple queries to build resilient and well-governed data assets:
 
-`Key Message: The financial movie performance is not good!`
+* **Data Modeling**: Designed a Medallion Data Model (Raw/Staging/Integration/Consumer) with 10+ dbt models to manage complexity and ensure clear data lineage.
 
-Overall, we are making losses in the analysed 12 months. This is due to a general downwards trend of profits and driven by movie theatres 1 and 2 (green and orange).
+    ![Show the model lineage.](images/models_lineage.png)
 
-![overall_profitability](images/analysis_1.png)
+* **Data Quality & Testing**: Implemented comprehensive testing early and often using a mix of built-in dbt tests, custom self-made tests, and packages like dbt-utils and dbt-expectations. This included:
 
-A closer look on the movie genres shows that some genres are not profitable at all. Three genres together create xx% of losses. Need to discuss reasons for the movies to be shown.
+    * Uniqueness and Not-Null checks at the Source and Mart levels.
 
-![genre_profitability](images/analysis_2.png)
+    * Custom tests like not_negative for financial metrics (tickets_sold, revenue, costs).
 
-Finally, the data shows that unprofitable movies were shown very long, up to 18 months. This is confusing, because profitable movies were generally only for a couple months on the screen. 
+* **Code DRYness & Reusability**: Leveraged Jinja and dbt Macros (as simple as Python functions!) to significantly reduce repetitive SQL code and manage logic efficiently.
 
-![movie_profitability_screentime](images/analysis_3.png)
+* **Cloud Ingestion**: Simulated a real-world scenario by using Snowflake's COPY INTO feature to ingest raw data from a managed cloud storage, standardizing schemas and column names.
+
+* **Documentation & Governance**: Utilized dbt’s functionality to generate detailed, structured, and readable project documentation and data lineage automatically, simultaneously with development.
+
+## 📉 Business Impact & Actionable Insights
+
+The resulting data mart (mrt_movies_performance_incl_kpis) immediately exposed a crucial business problem:
+
+| Insight | Visualization |
+| --- | ---: |
+| **The Financial Picture**: The company is operating at an overall loss over the analysed 12 months, driven primarily by two major locations. | <a href="images/analysis_1.png"><img src="images/analysis_1.png" alt="overall_profitability" width="300"/></a> |
+| **Profitability Paradox**: The data revealed that unprofitable movies were screened for up to 18 months, while profitable movies were quickly rotated out after only a few months. | <a href="images/analysis_2.png"><img src="images/analysis_2.png" alt="genre_profitability" width="300"/></a> |
+| **Targeted Loss**: Identified specific movie genres that are highly unprofitable and account for a significant percentage of total losses. | <a href="images/analysis_3.png"><img src="images/analysis_3.png" alt="movie_profitability_screentime" width="300"/></a> |
+
+**👉 Recommendations**: Focus on profitable movie genres, investigate reasons for showing money-losing films, and extend screening durations for profitable titles to capitalize on market demand.
 
 Link to [Tableau Dashboard](https://public.tableau.com/app/profile/thorsten.weber/viz/movie_performance_FY24-25)
 
-### Recommendations and next steps
 
-Based on these insights and the underlying data analysis following aspects are worth considering:
+## Comprehensive Technical project description
 
-#### Business aspects
-
-* **Investigate downtrend** - investigate reasons 
-    e.g. economical, wrong movie choice, bad CSAT?
-* **Focus on profitable movie genres** and eliminate unprofitable ones
-* **Show profitable movies longer** and reduce screening time for unprofitable ones
-
-#### Next analysis 
-* **Include cross-selling revenue** of food, drinks, merchandise as they could have bigger impact on profitability of movies in general, also consider infrastructure costs of movie theatre to get a complete picture 
-
-#### Data quality
-
-* **standardise reporting** across cinemans (fields, aggregation level)
-* enforce filling in fields about movies when entering the data
-* **include timestamp per source** dataset showing the reporting time and being used for data freshness checks
-* **Measures to reduce duplicates** and missing invoices   
-
-## Technical project description
-
-The next passages are for the technical interested readers. You will find information about the data tools involved, steps and methods for data cleaning and transformation and testing of the models.
+The following passages are for the technically interested readers. You will find information about the data tools involved, steps and methods for data cleaning and transformation and testing of the models.
 
 ### Setup/ Tooling
 
