@@ -1,0 +1,24 @@
+movie_id,movie_title,release_date,genre,country,studio,budget,director,rating,minutes
+2024_PIX_001_100,Inside Out 2,2024-06-14,Animation,USA,Pixar,"$200,000,000",Pete Docter,PG,100
+2024_MAR_002_120,Deadpool & Wolverine,2024-07-26,Action,USA,Marvel Studios,"$250,000,000",Shawn Levy,R,120
+2024_ILL_003_095,Despicable Me 4,2024-07-03,Animation,USA,Illumination,"$150,000,000",Unknown,PG,95
+2024_DIS_004_105,Moana 2,2024-11-27,Animation,USA,Walt Disney,"$180,000,000",Ron Clements & John Musker,PG,105
+2024_WAR_005_150,Dune: Part Two,2024-03-01,Sci-Fi,USA,Warner Bros.,"$200,000,000",Denis Villeneuve,,150
+2024_UNI_006_135,Wicked (Part 1),2024-11-27,Fantasy,USA,Universal Pictures,"$300,000,000",Jon M. Chu,PG-13,135
+2024_LEG_007_125,Godzilla x Kong: The New Empire,2024-03-29,Action,USA,Legendary Pictures,"$220,000,000",Adam Wingard,PG-13,
+2024_DRE_008_098,Kung Fu Panda 4,2024-03-08,Animation,USA,DreamWorks,"$140,000,000",Unknown,PG,98
+2024_DIS_009_110,Mufasa: The Lion King,2024-12-20,,USA,Disney,"$250,000,000",Barry Jenkins,,110
+2024_SON_010_115,Venom: The Last Dance,2024-10-25,Action,USA,Sony Pictures,"$120,000,000",Kelly Marcel,PG-13,115
+2024_WAR_011_105,Beetlejuice Beetlejuice,2024-09-06,Comedy,USA,Warner Bros.,"$180,000,000",Tim Burton,PG-13,105
+2024_PAR_012_140,Gladiator II,2024-11-22,Action,USA,Paramount Pictures,"$150,000,000",Ridley Scott,PG-13,
+2024_SON_013_118,Bad Boys: Ride or Die,2024-06-07,,USA,Sony Pictures,"$100,000,000",Adil El Arbi & Bilall Fallah,R,118
+2024_20C_014_130,Kingdom of the Planet of the Apes,2024-05-10,Sci-Fi,USA,20th Century Studios,"$175,000,000",Wes Ball,PG-13,130
+2024_UNI_015_120,Twisters,2024-07-19,Action,USA,Universal Pictures,"$125,000,000",Dean Devlin,PG-13,120
+2024_UNI_016_115,It Ends with Us,2024-08-09,Drama,USA,Universal Pictures,"$70,000,000",Unknown,PG-13,115
+2024_20C_017_125,Alien: Romulus,2024-08-16,Sci-Fi,USA,20th Century Studios,"$160,000,000",Ridley Scott,R,125
+2024_PAR_018_110,Sonic the Hedgehog 3,2024-12-20,Action,USA,Paramount Pictures,"$135,000,000",Jeff Fowler,,
+2024_NET_019_095,The Wild Robot,2024-09-27,Animation,USA,Netflix,"$100,000,000",Unknown,PG,95
+2024_PAR_032_105,A Quiet Place: Day One,2024-06-28,Horror,USA,Paramount Pictures,"$80,000,000",Michael Sarnoski,,105
+2024_ALC_234_90,The Garfield Movie,2024-05-24,Comedy,USA,Alcon Entertainment,"$75,000,000",Mark Dindal,PG,90
+2024_WAR_231_120,Joker: Folie à Deux,2024-10-04,Thriller,USA,Warner Bros.,"$150,000,000",Todd Phillips,R,
+2024_SON_043_110,Ghostbusters: Frozen Empire,2024-03-22,Comedy,USA,Sony Pictures,"$120,000,000",Jason Reitman,PG-13,110
